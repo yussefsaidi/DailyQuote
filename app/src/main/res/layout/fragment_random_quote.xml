@@ -8,12 +8,15 @@
         android:id="@+id/quoteTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="THIS IS A RANDOM QUOTE"
+        android:text="This is a long random quote, testing to see how it fits on the screen, how does it look after all?"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="center"/>
+        android:layout_marginHorizontal="12dp"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:textColor="@color/white"/>
 
     <Button
         android:id="@+id/quoteButton"
@@ -23,6 +26,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="Another Quote"/>
+        android:text="Another Quote"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
