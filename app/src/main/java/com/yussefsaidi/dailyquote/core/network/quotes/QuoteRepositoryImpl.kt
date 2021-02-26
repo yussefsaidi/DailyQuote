@@ -10,17 +10,16 @@ import kotlin.coroutines.suspendCoroutine
 @Singleton
 class QuoteRepositoryImpl
 @Inject constructor(private val quoteController: QuoteController) : QuoteRepository {
-    override suspend fun getRandomQuote(): RandomQuoteResponse? {
+    override suspend fun getRandomQuote(): RandomQuoteResponse {
         return suspendCoroutine {
             quoteController.getRandomQuote(object : QuoteController.OnQuoteListener {
                 override fun onQuoteSuccess(quoteResponse: RandomQuoteResponse) {
-                    Log.d("TEST", "onQuoteSuccess: ")
+                    Log.d("TEST", "onQuoteSuccess: " + quoteResponse.quoteText)
                     it.resume(quoteResponse)
                 }
 
                 override fun onQuoteFailure(message: String?, statusCode: Int) {
                     Log.d("TEST", "onQuoteFailure: " + statusCode + "error: " + message)
-                    it.resume(null)
                 }
             })
         }
