@@ -12,12 +12,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.yussefsaidi.dailyquote.R
-import com.yussefsaidi.dailyquote.core.network.quotes.RandomQuoteResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_random_quote.*
 
 @AndroidEntryPoint
-class RandomQuoteFragment: Fragment(){
+class RandomQuoteFragment: Fragment() {
 
     private val navController: NavController by lazy {
         Navigation.findNavController(
@@ -26,6 +25,7 @@ class RandomQuoteFragment: Fragment(){
         )
     }
 
+    private val randomQuoteAdapter = RandomQuoteAdapter()
     private val quoteViewModel by viewModels<QuoteViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -34,18 +34,28 @@ class RandomQuoteFragment: Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //initRecyclerView()
         quoteViewModel.getRandomQuote()
-
-        quoteViewModel.randomQuote.observe(viewLifecycleOwner, Observer {
-            Log.d("TEST", "new quote: " + it)
-            it?.let {
-                quoteTextView.text = it.quoteText
-            }
-        })
-
-        quoteButton.setOnClickListener {
-            Log.d("TEST", "onViewCreated: ")
+        nextQuoteButton.setOnClickListener {
             quoteViewModel.getRandomQuote()
         }
+
+
+        quoteViewModel.randomQuoteLiveData.observe(viewLifecycleOwner, Observer {
+            Log.d("TEST", "new quote: $it")
+            /*it?.let {
+                randomQuoteAdapter.addQuote(it)
+            }*/
+            quoteTextView.text = it.quoteText
+            quoteAuthorTextView.text = it.quoteAuthor
+
+
+        })
     }
+
+    /*fun initRecyclerView(){
+        quotesRecyclerView.setHasFixedSize(true)
+        quotesRecyclerView.layoutManager = LinearLayoutManager(activity)
+        quotesRecyclerView.adapter = randomQuoteAdapter
+    }*/
 }
