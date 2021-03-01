@@ -1,5 +1,7 @@
 package com.yussefsaidi.dailyquote.features.quotes
 
+import android.content.Intent
+import android.content.Intent.*
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -44,6 +46,17 @@ class RandomQuoteFragment : Fragment() {
             quoteViewModel.getRandomQuote()
         }
 
+        shareQuoteButton.setOnClickListener {
+            val sharingIntent = Intent(ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            sharingIntent.putExtra(EXTRA_SUBJECT, "Check out this cool quote")
+            sharingIntent.putExtra(
+                EXTRA_TEXT,
+                "" + quoteTextView.text + "\n" + quoteAuthorTextView.text
+            )
+            startActivity(Intent.createChooser(sharingIntent, "Share via"))
+        }
+
         quoteViewModel.randomQuoteLiveData.observe(viewLifecycleOwner, Observer {
             Log.d("TEST", "new quote: $it")
             /*it?.let {
@@ -51,6 +64,8 @@ class RandomQuoteFragment : Fragment() {
             }*/
             quoteTextView.text = it.quoteText
             quoteAuthorTextView.text = "-" + it.quoteAuthor
+            if (it.quoteAuthor.isNotBlank()) quoteAuthorTextView.visibility = View.VISIBLE
+            else quoteAuthorTextView.visibility = View.GONE
         })
     }
 

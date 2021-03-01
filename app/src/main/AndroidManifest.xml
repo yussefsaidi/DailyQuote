@@ -3,6 +3,7 @@
     package="com.yussefsaidi.dailyquote">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BIND_CHOOSER_TARGET_SERVICE" />
 
     <application
         android:name=".application.DailyQuoteApplication"

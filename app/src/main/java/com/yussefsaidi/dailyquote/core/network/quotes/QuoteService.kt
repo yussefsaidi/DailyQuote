@@ -20,9 +20,9 @@ interface QuoteService {
     @Headers("Accept: application/json")
     @GET(".")
     fun getRandomQuote(
-            @Query("method") method: String,
-            @Query("format") format: String,
-            @Query("lang") language: String
+        @Query("method") method: String,
+        @Query("format") format: String,
+        @Query("lang") language: String
     ): Call<RandomQuoteResponse>
 
 }

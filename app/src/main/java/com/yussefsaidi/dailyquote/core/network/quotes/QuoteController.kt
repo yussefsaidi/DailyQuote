@@ -12,7 +12,7 @@ import java.util.concurrent.Executors
 import javax.inject.Inject
 import javax.net.ssl.HttpsURLConnection
 
-class QuoteController @Inject constructor(){
+class QuoteController @Inject constructor() {
 
     private val quoteService = createApiService()
 
@@ -20,29 +20,33 @@ class QuoteController @Inject constructor(){
      *
      */
     fun getRandomQuote(quoteListener: OnQuoteListener) {
-        quoteService.getRandomQuote("getQuote", "json", "en").enqueue(object : Callback<RandomQuoteResponse> {
-            override fun onResponse(call: Call<RandomQuoteResponse>, response: Response<RandomQuoteResponse>) {
-                when (response.code()) {
-                    200 -> {
-                        if (response.body() == null) {
-                            Log.e("TAG", "No response data")
-                        } else {
-                            quoteListener.onQuoteSuccess(
+        quoteService.getRandomQuote("getQuote", "json", "en")
+            .enqueue(object : Callback<RandomQuoteResponse> {
+                override fun onResponse(
+                    call: Call<RandomQuoteResponse>,
+                    response: Response<RandomQuoteResponse>
+                ) {
+                    when (response.code()) {
+                        200 -> {
+                            if (response.body() == null) {
+                                Log.e("TAG", "No response data")
+                            } else {
+                                quoteListener.onQuoteSuccess(
                                     response.body()!!
-                            )
+                                )
+                            }
+                        }
+                        else -> {
+                            quoteListener.onQuoteFailure(response.message(), response.code())
                         }
                     }
-                    else -> {
-                        quoteListener.onQuoteFailure(response.message(), response.code())
-                    }
                 }
-            }
 
-            override fun onFailure(call: Call<RandomQuoteResponse>, t: Throwable) {
-                quoteListener.onQuoteFailure(t.message, HttpsURLConnection.HTTP_CONFLICT)
-            }
+                override fun onFailure(call: Call<RandomQuoteResponse>, t: Throwable) {
+                    quoteListener.onQuoteFailure(t.message, HttpsURLConnection.HTTP_CONFLICT)
+                }
 
-        })
+            })
     }
 
     companion object {
@@ -53,8 +57,9 @@ class QuoteController @Inject constructor(){
          * @return A configured Retrofit instance of type [Any].
          */
         fun createApiService() =
-                buildRetrofitInstance(QuoteService.DEFAULT_QUOTE_URL).create(
-                        QuoteService::class.java)
+            buildRetrofitInstance(QuoteService.DEFAULT_QUOTE_URL).create(
+                QuoteService::class.java
+            )
 
         /**
          * Builds a retrofit instance with the provided url and a GSON converter.
@@ -63,13 +68,13 @@ class QuoteController @Inject constructor(){
          * @return A configured Retrofit instance with a base url and a GSON converter.
          */
         private fun buildRetrofitInstance(baseUrl: String, supportProtobuff: Boolean = false) =
-                Retrofit.Builder()
-                        .baseUrl(baseUrl).apply {
-                            addConverterFactory(GsonConverterFactory.create())
-                        }
-                        .callbackExecutor(Executors.newSingleThreadExecutor())
-                        .client(getRetrofitHttpClient())
-                        .build()
+            Retrofit.Builder()
+                .baseUrl(baseUrl).apply {
+                    addConverterFactory(GsonConverterFactory.create())
+                }
+                .callbackExecutor(Executors.newSingleThreadExecutor())
+                .client(getRetrofitHttpClient())
+                .build()
 
 
         /**
@@ -78,7 +83,7 @@ class QuoteController @Inject constructor(){
          * @return an [OkHttpClient] to be used by a Retrofit service.
          */
         private fun getRetrofitHttpClient() =
-                OkHttpClient.Builder().build()
+            OkHttpClient.Builder().build()
     }
 
     /**
