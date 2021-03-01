@@ -9,12 +9,12 @@ import com.yussefsaidi.dailyquote.core.network.quotes.RandomQuoteResponse
 import kotlinx.coroutines.launch
 
 class QuoteViewModel @ViewModelInject constructor(
-     private val quoteRepository: QuoteRepository
+    private val quoteRepository: QuoteRepository
 ) : ViewModel() {
 
     val randomQuoteLiveData = MutableLiveData<RandomQuoteResponse>()
 
-    fun getRandomQuote(){
+    fun getRandomQuote() {
         viewModelScope.launch {
             randomQuoteLiveData.postValue(quoteRepository.getRandomQuote())
         }

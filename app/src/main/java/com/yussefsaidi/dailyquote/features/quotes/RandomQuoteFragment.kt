@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_random_quote.*
 
 @AndroidEntryPoint
-class RandomQuoteFragment: Fragment() {
+class RandomQuoteFragment : Fragment() {
 
     private val navController: NavController by lazy {
         Navigation.findNavController(
@@ -28,7 +28,11 @@ class RandomQuoteFragment: Fragment() {
     private val randomQuoteAdapter = RandomQuoteAdapter()
     private val quoteViewModel by viewModels<QuoteViewModel>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_random_quote, container, false)
     }
 
@@ -40,16 +44,13 @@ class RandomQuoteFragment: Fragment() {
             quoteViewModel.getRandomQuote()
         }
 
-
         quoteViewModel.randomQuoteLiveData.observe(viewLifecycleOwner, Observer {
             Log.d("TEST", "new quote: $it")
             /*it?.let {
                 randomQuoteAdapter.addQuote(it)
             }*/
             quoteTextView.text = it.quoteText
-            quoteAuthorTextView.text = it.quoteAuthor
-
-
+            quoteAuthorTextView.text = "-" + it.quoteAuthor
         })
     }
 
