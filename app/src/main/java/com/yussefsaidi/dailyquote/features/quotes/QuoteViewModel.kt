@@ -18,6 +18,5 @@ class QuoteViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             randomQuoteLiveData.postValue(quoteRepository.getRandomQuote())
         }
-
     }
 }

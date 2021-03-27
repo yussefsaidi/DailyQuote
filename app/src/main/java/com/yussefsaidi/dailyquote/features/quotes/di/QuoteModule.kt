@@ -2,7 +2,6 @@ package com.yussefsaidi.dailyquote.features.quotes.di
 
 import com.yussefsaidi.dailyquote.core.network.quotes.QuoteRepository
 import com.yussefsaidi.dailyquote.core.network.quotes.QuoteRepositoryImpl
-import com.yussefsaidi.dailyquote.features.quotes.RandomQuoteFragment
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
