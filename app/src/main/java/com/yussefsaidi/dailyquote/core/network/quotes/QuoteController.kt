@@ -1,6 +1,5 @@
 package com.yussefsaidi.dailyquote.core.network.quotes
 
-import android.os.Bundle
 import android.util.Log
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -57,8 +56,8 @@ class QuoteController @Inject constructor() {
          * @return A configured Retrofit instance of type [Any].
          */
         fun createApiService() =
-            buildRetrofitInstance(QuoteService.DEFAULT_QUOTE_URL).create(
-                QuoteService::class.java
+            buildRetrofitInstance(RandomQuoteService.DEFAULT_QUOTE_URL).create(
+                RandomQuoteService::class.java
             )
 
         /**

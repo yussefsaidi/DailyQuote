@@ -14,11 +14,20 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.yussefsaidi.dailyquote.R
+import com.yussefsaidi.dailyquote.core.NotificationCenter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_random_quote.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RandomQuoteFragment : Fragment() {
+
+    @Inject
+    lateinit var notificationCenter: NotificationCenter
+
+    companion object {
+        const val QUOTE_BR = "com.yussefsaidi.quote_br"
+    }
 
     private val navController: NavController by lazy {
         Navigation.findNavController(
@@ -27,7 +36,6 @@ class RandomQuoteFragment : Fragment() {
         )
     }
 
-    private val randomQuoteAdapter = RandomQuoteAdapter()
     private val quoteViewModel by viewModels<QuoteViewModel>()
 
     override fun onCreateView(
@@ -40,7 +48,6 @@ class RandomQuoteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //initRecyclerView()
         quoteViewModel.getRandomQuote()
         nextQuoteButton.setOnClickListener {
             quoteViewModel.getRandomQuote()
@@ -59,19 +66,12 @@ class RandomQuoteFragment : Fragment() {
 
         quoteViewModel.randomQuoteLiveData.observe(viewLifecycleOwner, Observer {
             Log.d("TEST", "new quote: $it")
-            /*it?.let {
-                randomQuoteAdapter.addQuote(it)
-            }*/
             quoteTextView.text = it.quoteText
             quoteAuthorTextView.text = "-" + it.quoteAuthor
             if (it.quoteAuthor.isNotBlank()) quoteAuthorTextView.visibility = View.VISIBLE
             else quoteAuthorTextView.visibility = View.GONE
         })
-    }
 
-    /*fun initRecyclerView(){
-        quotesRecyclerView.setHasFixedSize(true)
-        quotesRecyclerView.layoutManager = LinearLayoutManager(activity)
-        quotesRecyclerView.adapter = randomQuoteAdapter
-    }*/
+        quoteViewModel.setupQuoteNotifications()
+    }
 }
