@@ -16,7 +16,7 @@ import javax.inject.Inject
 class NotificationCenter @Inject constructor(@ApplicationContext private val activity: Context) :
     LifecycleObserver {
 
-    private val notificationCenterScope = CoroutineScope(Dispatchers.IO)
+    private val notificationCenterScope = CoroutineScope(Dispatchers.Main)
 
     companion object {
         const val QUOTE_NOTIFICATION_CHANNEL_ID = "QuoteNotification"
@@ -40,9 +40,13 @@ class NotificationCenter @Inject constructor(@ApplicationContext private val act
             NotificationCompat.Builder(activity, QUOTE_NOTIFICATION_CHANNEL_ID)
 
         notificationBuilder.setSmallIcon(R.drawable.ic_dailyquote_foreground)
-            .setContentTitle("Quote")
+            .setContentTitle(quoteResponse.quoteAuthor)
             .setContentText(quoteResponse.quoteText)
             .setAutoCancel(true)
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText(quoteResponse.quoteText)
+            )
 
         return notificationBuilder.build()
     }
