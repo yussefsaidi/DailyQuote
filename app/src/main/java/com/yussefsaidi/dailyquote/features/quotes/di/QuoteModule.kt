@@ -4,9 +4,7 @@ import com.yussefsaidi.dailyquote.core.network.quotes.QuoteRepository
 import com.yussefsaidi.dailyquote.core.network.quotes.QuoteRepositoryImpl
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -17,14 +15,4 @@ import javax.inject.Singleton
     @Singleton
     @Binds
     abstract fun bindQuoteRepository(impl: QuoteRepositoryImpl): QuoteRepository
-
-    /*@Singleton
-    @Binds
-    abstract fun providesNotificationCenter(notificationCenter: NotificationCenter) : NotificationCenter*/
-
-    /*@Singleton
-    @Provides
-    fun providesWorkManager(@ApplicationContext appContext: Context): WorkManager =
-        WorkManager.getInstance(appContext)*/
-
 }
